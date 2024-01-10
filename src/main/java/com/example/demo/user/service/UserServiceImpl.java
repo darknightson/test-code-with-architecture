@@ -24,14 +24,14 @@ public class UserServiceImpl implements UserService {
     private final UuidHolder uuidHolder;
     private final ClockHolder clockHolder;
 
+    public User getById(long id) {
+        return userRepository.findByIdAndStatus(id, UserStatus.ACTIVE)
+                .orElseThrow(() -> new ResourceNotFoundException("Users", id));
+    }
+
     public User getByEmail(String email) {
         return userRepository.findByEmailAndStatus(email, UserStatus.ACTIVE)
             .orElseThrow(() -> new ResourceNotFoundException("Users", email));
-    }
-
-    public User getById(long id) {
-        return userRepository.findByIdAndStatus(id, UserStatus.ACTIVE)
-            .orElseThrow(() -> new ResourceNotFoundException("Users", id));
     }
 
     @Transactional
